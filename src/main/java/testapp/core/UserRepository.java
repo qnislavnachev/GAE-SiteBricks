@@ -6,6 +6,8 @@ public interface UserRepository {
 
     List<User> findUsers();
 
+    User findById(int Id);
+
     void register(User user);
 
     void delete(int userId);

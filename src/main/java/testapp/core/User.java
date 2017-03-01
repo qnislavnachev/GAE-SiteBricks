@@ -1,8 +1,11 @@
 package testapp.core;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable {
     private int id;
     private String name;
+    private UserAccount account = new UserAccount();
 
     public User() {
     }
@@ -10,6 +13,10 @@ public class User {
     public User(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public UserAccount getAccount() {
+        return account;
     }
 
     public int getId() {
