@@ -1,0 +1,23 @@
+*.class
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Project Ignores
+.gradle/
+.idea/
+build/
+gradle/
+gradlew
+gradlew.bat
+settings.gradle
+src/endpointsSrc
+src/functionalTest
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
