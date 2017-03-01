@@ -10,21 +10,21 @@ produces:
   - "application/json"
 consumes:
   - "application/json"
-basePath: "/"
+basePath: "/v1"
 paths:
-  /users:
+  /v1/users:
     get:
       summary: "returns all users registered in the system"
-      operationId: "getUsers"
+      operationId: getUsers
       responses:
         200:
           description: "successfully return all users"
     post:
       summary: "register user in the system"
-      operationId: "registerUser"
+      operationId: registerUser
       parameters:
-      - in: "body"
-        name: "user"
+      - in: body
+        name: user
         description: "user that should be added to the system"
         required: true
         schema:
@@ -34,95 +34,103 @@ paths:
           description: "user registered successful"
         400:
           description: "invalid consumed data"
-  /users/{userId}:
+  /v1/users/{ucn}:
     get:
-      summary: "find user by given id"
-      operationId: "findUserById"
+      summary: "find user by given ucn"
+      operationId: findUserById
       parameters:
-      - name: "userId"
+      - name: ucn
         in: path
-        description: "id of user to return"
+        description: "ucn of user to return"
         required: true
         type: "integer"
+        format: "int64"
       responses:
         200:
           description: "returns required user successful"
         400:
-          description: "invalid id of user"
+          description: "invalid ucn of user"
     delete:
       summary: "delete a user"
-      operationId: "deleteUserById"
+      operationId: deleteUserById
       parameters:
-      - name: "userId"
+      - name: ucn
         in: path
-        description: "id of user that wants to delete"
+        description: "ucn of user that wants to delete"
         required: true
         type: "integer"
+        format: "int64"
       responses:
         200:
           description: "user was deleted successfully"
         400:
-          description: "invalid user id"
-  /accounts/{userId}/balance:
+          description: "invalid user ucn"
+  /accounts/{ucn}/tokenBalance:
     get:
-      summary: "returns user account balance"
-      operationId: "getUserBalance"
+      summary: "returns user account tokenBalance"
+      operationId: getUserBalance
       parameters:
-      - name: "userId"
+      - name: ucn
         in: path
-        description: "id of user that want to get balance"
+        description: "ucn of user that want to get tokenBalance"
         required: true
         type: "integer"
+        format: "int64"
       responses:
         200:
-          description: "return balance of user successfully"
+          description: "return tokenBalance of user successfully"
         400:
-          description: "invalid user id"
-  /accounts/{userId}/deposit/{value}:
+          description: "invalid user ucn"
+  /accounts/{ucn}/deposit:
     post:
       summary: "deposit amount to user account"
-      operationId: "deposit"
+      operationId: deposit
       parameters:
-        - name: "userId"
+        - in: body
+          name: amount
+          description: "amount to deposit"
+          required: true
+          schema:
+            type: "integer"
+        - name: ucn
           in: path
-          description: "id of user in that account we want to deposit"
+          description: "ucn of user in that account we want to deposit"
           required: true
           type: "integer"
-        - name: "value"
-          in: path
-          description: "value that we want to deposit"
-          required: true
-          type: "integer"
+          format: "int64"
       responses:
           200:
             description: "deposit was successfully"
           400:
             description: "user does not exist"
-  /accounts/{userId}/withdraw/{value}:
+  /accounts/{ucn}/withdraw:
     post:
       summary: "withdraw from user account"
-      operationId: "withdraw"
+      operationId: withdraw
       parameters:
-        - name: "userId"
+        - in: body
+          name: amount
+          description: "amount to withdraw"
+          required: true
+          schema:
+            type: "integer"
+        - name: ucn
           in: path
-          description: "id of user in that account we want to  withdraw"
+          description: "ucn of user in that account we want to  withdraw"
           required: true
           type: "integer"
-        - name: "value"
-          in: path
-          description: "amount that we want to withdraw"
-          required: true
-          type: "integer"
+          format: "int64"
       responses:
           200:
             description: "withdraw was successfully"
           400:
-            description: "no such amount or invalid user id"
+            description: "no such amount or invalid user ucn"
 definitions:
   User:
     type: "object"
     properties:
-      id:
+      ucn:
         type: "integer"
+        format: "int64"
       name:
         type: "string"

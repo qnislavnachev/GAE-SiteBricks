@@ -1,12 +1,19 @@
 package testapp.core;
 
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+
 import java.util.List;
 
 public interface UserRepository {
 
     List<User> findUsers();
 
-    void register(User user);
+    User findById(long ucn);
 
-    void delete(int userId);
+    Key getEntityKey(long ucn);
+
+    Entity register(User user);
+
+    Entity delete(long ucn);
 }

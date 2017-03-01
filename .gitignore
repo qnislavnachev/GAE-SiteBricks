@@ -13,6 +13,7 @@ gradlew.bat
 settings.gradle
 src/endpointsSrc
 src/functionalTest
+WEB_INF/
 
 # Package Files #
 *.jar
