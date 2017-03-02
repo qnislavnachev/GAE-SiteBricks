@@ -2,10 +2,7 @@ package testapp.adapter.memory;
 
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
-import testapp.core.User;
-import testapp.core.UserException;
-import testapp.core.UserRepository;
-import testapp.core.UserValidator;
+import testapp.core.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,10 +11,12 @@ public class InMemoryUserRepository implements UserRepository {
     private List<User> userList;
     private UserValidator validator;
     private MemcacheService cache;
+    private UserListener listener;
 
-    public InMemoryUserRepository() {
+    public InMemoryUserRepository(UserListener listener) {
+        this.listener = listener;
         this.userList = new ArrayList<>();
-        this.validator = new UserValidator(userList);
+        this.validator = new UserValidator(userList, this);
         this.cache = MemcacheServiceFactory.getMemcacheService();
     }
 
@@ -48,6 +47,7 @@ public class InMemoryUserRepository implements UserRepository {
         if (!validator.isExist(user) || validator.validate(userName, regex)) {
             userList.add(user);
             cache.put("users", userList);
+            listener.onRegister(user);
             return;
         }
         throw new UserException("User Already Exist");
