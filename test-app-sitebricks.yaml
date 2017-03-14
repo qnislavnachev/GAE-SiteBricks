@@ -1,0 +1,128 @@
+swagger: '2.0'
+info:
+  title: 'test-app-sitebricks'
+  description: 'simple test app with sitebricks'
+  version: '1.0-SNAPSHOT'
+host: "test-app-sitebricks.appspot.com"
+schemes:
+  - https
+produces:
+  - "application/json"
+consumes:
+  - "application/json"
+basePath: "/"
+paths:
+  /users:
+    get:
+      summary: "returns all users registered in the system"
+      operationId: "getUsers"
+      responses:
+        200:
+          description: "successfully return all users"
+    post:
+      summary: "register user in the system"
+      operationId: "registerUser"
+      parameters:
+      - in: "body"
+        name: "user"
+        description: "user that should be added to the system"
+        required: true
+        schema:
+          $ref: "#/definitions/User"
+      responses:
+        201:
+          description: "user registered successful"
+        400:
+          description: "invalid consumed data"
+  /users/{userId}:
+    get:
+      summary: "find user by given id"
+      operationId: "findUserById"
+      parameters:
+      - name: "userId"
+        in: path
+        description: "id of user to return"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "returns required user successful"
+        400:
+          description: "invalid id of user"
+    delete:
+      summary: "delete a user"
+      operationId: "deleteUserById"
+      parameters:
+      - name: "userId"
+        in: path
+        description: "id of user that wants to delete"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "user was deleted successfully"
+        400:
+          description: "invalid user id"
+  /accounts/{userId}/balance:
+    get:
+      summary: "returns user account balance"
+      operationId: "getUserBalance"
+      parameters:
+      - name: "userId"
+        in: path
+        description: "id of user that want to get balance"
+        required: true
+        type: "integer"
+      responses:
+        200:
+          description: "return balance of user successfully"
+        400:
+          description: "invalid user id"
+  /accounts/{userId}/deposit/{value}:
+    post:
+      summary: "deposit amount to user account"
+      operationId: "deposit"
+      parameters:
+        - name: "userId"
+          in: path
+          description: "id of user in that account we want to deposit"
+          required: true
+          type: "integer"
+        - name: "value"
+          in: path
+          description: "value that we want to deposit"
+          required: true
+          type: "integer"
+      responses:
+          200:
+            description: "deposit was successfully"
+          400:
+            description: "user does not exist"
+  /accounts/{userId}/withdraw/{value}:
+    post:
+      summary: "withdraw from user account"
+      operationId: "withdraw"
+      parameters:
+        - name: "userId"
+          in: path
+          description: "id of user in that account we want to  withdraw"
+          required: true
+          type: "integer"
+        - name: "value"
+          in: path
+          description: "amount that we want to withdraw"
+          required: true
+          type: "integer"
+      responses:
+          200:
+            description: "withdraw was successfully"
+          400:
+            description: "no such amount or invalid user id"
+definitions:
+  User:
+    type: "object"
+    properties:
+      id:
+        type: "integer"
+      name:
+        type: "string"
