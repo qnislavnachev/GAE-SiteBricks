@@ -8,6 +8,6 @@ public class GuiceListener extends GuiceServletContextListener {
 
     @Override
     protected Injector getInjector() {
-       return Guice.createInjector(new AppModule());
+        return Guice.createInjector(new AppModule());
     }
 }
